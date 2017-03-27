@@ -12,7 +12,10 @@ class MineResetTask extends AsyncTask{
     private $a;
     private $b;
     private $ratioData;
+    private $regionId;
     private $levelId;
+    private $chunkClass;
+
     public function __construct(array $chunks, Vector3 $a, Vector3 $b, array $data, $levelId, $regionId, $chunkClass){
         $this->chunks = serialize($chunks);
         $this->a = $a;
@@ -33,7 +36,7 @@ class MineResetTask extends AsyncTask{
         /** @var  Chunk[] $chunks */
         $chunks = unserialize($this->chunks);
         foreach($chunks as $hash => $binary){
-            $chunks[$hash] = $chunkClass::fromBinary($binary);
+            $chunks[$hash] = $chunkClass::fastDeserialize($binary);
         }
         $sum = [];
         $id = array_keys(unserialize($this->ratioData));
